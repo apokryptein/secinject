@@ -1,6 +1,6 @@
 ## Section Mapping Process Injection (secinject): Cobalt Strike BOF
 
-Beacon Object File (BOF) that leverages Native APIs to achieve process injection through memory section mapping. It implements two commands via an Agressor script: one to inject beacon shellcode for a selected listener into the desired process, and one to inject the user's desired shellcode - loaded from a bin file - into the desired process.  These are *sec-inject* and *sec-shinject* respectively.
+Beacon Object File (BOF) that leverages Native APIs to achieve process injection through memory section mapping. It implements two commands via an Aggressor Script: one to inject beacon shellcode for a selected listener into the desired process, and one to inject the user's desired shellcode - loaded from a bin file - into the desired process.  These are *sec-inject* and *sec-shinject* respectively.
 
 - Currently, this is only implemented for x64 processes.
 
