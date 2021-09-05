@@ -24,12 +24,10 @@ sec-shinject PID /path/to/bin
 
 ### Code References
 https://github.com/EspressoCake/Process_Protection_Level_BOF/tree/main/src
-https://github.com/ajpc500/BOFs/blob/main/SyscallsInject/syscalls_inject.cna
 https://github.com/rsmudge/CVE-2020-0796-BOF/blob/master/src/libc.c
-https://github.com/connormcgarr/cThreadHijack/blob/main/cThreadHijack.c
-https://github.com/boku7/HOLLOW/blob/main/hollow.x64.c
-https://github.com/boku7/HOLLOW/blob/main/hollow.cna
-
+https://github.com/connormcgarr/cThreadHijack/
+https://github.com/boku7/HOLLOW/
+https://github.com/ajpc500/BOFs/
 
 
 
