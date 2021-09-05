@@ -1,2 +1,2 @@
-# secinject
-Section Mapping Process Injection (secinject): Cobalt Strike BOF
+# Section Mapping Process Injection (secinject): Cobalt Strike BOF
+
