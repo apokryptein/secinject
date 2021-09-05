@@ -24,9 +24,13 @@ sec-shinject PID /path/to/bin
 
 ### Code References
 https://github.com/EspressoCake/Process_Protection_Level_BOF/tree/main/src
+
 https://github.com/rsmudge/CVE-2020-0796-BOF/blob/master/src/libc.c
+
 https://github.com/connormcgarr/cThreadHijack/
+
 https://github.com/boku7/HOLLOW/
+
 https://github.com/ajpc500/BOFs/
 
 
