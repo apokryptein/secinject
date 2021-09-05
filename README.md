@@ -12,7 +12,15 @@ make
 ```
 
 ### How to Use
+#### Injecting Beacon
+```
+sec-inject PID LISTENER-NAME
+```
 
+#### Injecting Other Shellcode
+```
+sec-shinject PID /path/to/bin
+```
 
 ### Code References
 https://github.com/EspressoCake/Process_Protection_Level_BOF/tree/main/src
