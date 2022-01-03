@@ -98,7 +98,7 @@ alias sec-inject {
 
     # Generate payload based on supplied beacon (currently x64 only)
     local('$payload');
-    $payload = payload($3, "x64", "thread");
+    $payload = artifact_payload($3, "raw", "x64");
 
     # Pack args
     $args = bof_pack($1,"ib", $2, $payload);
