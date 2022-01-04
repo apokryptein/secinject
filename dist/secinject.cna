@@ -25,7 +25,7 @@ alias sec-shinject {
 
     # Ensure we are in an x64 beacon
     if ($barch !eq 'x64') {
-        berror("We just support x64 at the moment.");
+        berror($1, "We just support x64 at the moment.");
         return;
     }
 
@@ -33,7 +33,7 @@ alias sec-shinject {
     # Conditional taken from: https://github.com/connormcgarr/cThreadHijack/blob/main/cThreadHijack.cna
     if ((!-isnumber $2) || (int($2) <= 0))
     {
-        berror($bid, "Please enter a valid PID");
+        berror($1, "Please enter a valid PID");
         return;
     }
 
@@ -41,6 +41,14 @@ alias sec-shinject {
     $handle = openf(script_resource("secinject. $+ $barch $+ .o"));
     $data = readb($handle, -1);
     closef($handle);
+
+
+    # Check if supplied file exists
+    if (!-exists $3) {
+        berror($1, "File doesn't exist");
+        return;
+    }
+
 
     # Read shellcode from bin
     local('$sc_handle $sc_data');
@@ -73,7 +81,7 @@ alias sec-inject {
 
     # Ensure we are in an x64 beacon
     if ($barch !eq 'x64') {
-        berror("We just support x64 at the moment.");
+        berror($1, "We just support x64 at the moment.");
         return;
     }
 
@@ -81,13 +89,13 @@ alias sec-inject {
     # Conditional borrowed from: https://github.com/connormcgarr/cThreadHijack/blob/main/cThreadHijack.cna
     if ((!-isnumber $2) || (int($2) <= 0))
     {
-        berror($bid, "Please enter a valid PID");
+        berror($1, "Please enter a valid PID");
         return;
     }
 
     # Verify listener exists
     if ($3 !in listeners()) {
-        berror("That listener seems invalid.");
+        berror($1, "That listener seems invalid.");
         return;
     }
 
