@@ -94,7 +94,7 @@ alias sec-inject {
     }
 
     # Verify listener exists
-    if ($3 !in listeners()) {
+    if (($3 !in listeners()) && ($3 !in listeners_local()) && ($3 !in listeners_stageless())) {
         berror($1, "That listener seems invalid.");
         return;
     }
